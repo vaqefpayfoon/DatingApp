@@ -25,13 +25,16 @@ export class AuthService {
   register(model: any) {
     return this.http.post(this.baseUrl + 'register', model, this.requestOptions()).catch(this.handlerError);
   }
+
   loggedIn() {
     return tokenNotExpired('token');
   }
+
   private requestOptions() {
     const headers = new Headers({ 'Content-type': 'application/json' });
     return new RequestOptions({ headers: headers });
   }
+
   private handlerError(error: any){
     const applicationError = error.headers.get('Application-Error');
     if(applicationError){

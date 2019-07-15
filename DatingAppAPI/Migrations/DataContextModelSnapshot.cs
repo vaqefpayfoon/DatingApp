@@ -16,23 +16,65 @@ namespace DatingAppAPI.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846");
 
-            modelBuilder.Entity("DatingApp.API.Models.User", b =>
+            modelBuilder.Entity("DatingAppAPI.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateAdded");
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsMain");
+
+                    b.Property<string>("Url");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("DatingAppAPI.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<string>("Gender");
+
+                    b.Property<string>("Interests");
+
+                    b.Property<string>("Introduction");
+
+                    b.Property<string>("KnownAs");
+
+                    b.Property<DateTime>("LastActive");
+
+                    b.Property<string>("LookingFor");
 
                     b.Property<byte[]>("PasswordHash");
 
                     b.Property<byte[]>("PasswordSult");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("Username");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Value", b =>
+            modelBuilder.Entity("DatingAppAPI.Models.Value", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -42,6 +84,14 @@ namespace DatingAppAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Values");
+                });
+
+            modelBuilder.Entity("DatingAppAPI.Models.Photo", b =>
+                {
+                    b.HasOne("DatingAppAPI.Models.User", "User")
+                        .WithMany("Photos")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
