@@ -9,12 +9,16 @@ export class UserService {
 
 constructor(private authHttp: AuthHttp) { }
   private mainUrl = 'http://localhost:5000/api/users';
-  getUser(): Observable<User[]> {
+  getUsers(): Observable<User[]> {
     //return this.http.get(this.mainUrl, this.jwt()).map(response => <User[]>response.json()).catch(this.handlerError);
     return this.authHttp.get(this.mainUrl).map(response => <User[]>response.json())
     .catch(this.handlerError);
   }
 
+  getUser(id: number): Observable<User> {
+    return this.authHttp.get(this.mainUrl + '/' + id).map(response => <User>response.json())
+    .catch(this.handlerError);
+  }
   private jwt() {
     let token = localStorage.getItem('token');
     if(token) {
@@ -39,5 +43,27 @@ constructor(private authHttp: AuthHttp) { }
       }
     }
     return Observable.throw(modelStateError || 'Server Error');
+  }
+
+  updateUser(id: number, user: User) {
+    return this.authHttp.put(this.mainUrl + '/' + id, user).catch(this.handleError);
+  }
+  private handleError(error: any) {
+    const applicationError = error.headers.get('Application-Error');
+    if (applicationError) {
+      return Observable.throw(applicationError);
+    }
+    const serverError = error.json();
+    let modelStateErrors = '';
+    if (serverError) {
+      for (const key in serverError) {
+        if (serverError[key]) {
+          modelStateErrors += serverError[key] + '\n';
+        }
+      }
+    }
+    return Observable.throw(
+      modelStateErrors || 'Server error'
+    );
   }
 }

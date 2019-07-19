@@ -27,6 +27,7 @@ namespace DatingAppAPI {
             services.AddDbContext<DataContext> (x => x.UseSqlite
             (Configuration.GetConnectionString ("DefaultConnection")));
             services.AddTransient<Seed>();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddMvc ().AddJsonOptions(opt => 
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

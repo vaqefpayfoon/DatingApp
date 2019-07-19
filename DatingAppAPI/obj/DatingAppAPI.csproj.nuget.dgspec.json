@@ -45,6 +45,10 @@
               "target": "Package",
               "version": "[3.2.0, )"
             },
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.1.0-rc1, )"
+            },
             "Microsoft.AspNetCore.All": {
               "suppressParent": "All",
               "target": "Package",
