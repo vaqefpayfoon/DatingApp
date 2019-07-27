@@ -66,4 +66,11 @@ constructor(private authHttp: AuthHttp) { }
       modelStateErrors || 'Server error'
     );
   }
+  setMainPhoto(userId: number, id: number) {
+    return this.authHttp.post(this.mainUrl + '/' + userId + '/photos/' + id + '/setMain', {}).catch(this.handleError);
+  }
+
+  deletePhoto(userId: number, id: number) {
+    return this.authHttp.delete(this.mainUrl + '/' + userId + '/photos/' + id).catch(this.handleError);
+  }
 }

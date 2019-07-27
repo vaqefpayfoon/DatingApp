@@ -14,6 +14,7 @@ import { UserService } from 'src/app/_services/user.service';
 export class MemberEditComponent implements OnInit {
   user: User;
   @ViewChild('editForm', {static: false}) editForm: NgForm;
+  photoUrl: string;
 
   constructor(private route: ActivatedRoute,
     private authService: AuthService,
@@ -26,7 +27,9 @@ export class MemberEditComponent implements OnInit {
   getUserToEdit(){
     this.route.data.subscribe(data => {
       this.user = data['user'];
+      this.photoUrl = this.user.photoUrl;
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => photoUrl = this.photoUrl);
   }
   updateUser() {
     this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
@@ -36,5 +39,8 @@ export class MemberEditComponent implements OnInit {
       this.alertify.error(error);
     });
 
+  }
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
   }
 }

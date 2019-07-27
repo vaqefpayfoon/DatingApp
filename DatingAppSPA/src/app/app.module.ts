@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -52,7 +52,7 @@ import { FileUploadModule } from 'ng2-file-upload';
       DatingRoutingModule,
       AuthModule,
       TabsModule.forRoot(),
-      FileUploadModule
+      FileUploadModule, ReactiveFormsModule
    ],
    providers: [
       AuthService,

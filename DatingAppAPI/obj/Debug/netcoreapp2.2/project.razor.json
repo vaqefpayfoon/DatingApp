@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\DatingApp\\DatingAppAPI\\DatingAppAPI.csproj",
+  "FilePath": "d:\\vs\\DatingApp\\DatingAppAPI\\DatingAppAPI.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-2.1",
     "LanguageVersion": "2.1",
@@ -2941,5 +2941,6 @@
     "CSharpLanguageVersion": 703
   },
   "RootNamespace": "DatingAppAPI",
-  "Documents": []
+  "Documents": [],
+  "SerializationFormat": "0.1"
 }
