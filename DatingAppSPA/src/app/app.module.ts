@@ -11,7 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ValueComponent } from './value/value.component';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { MemberListComponent } from './members/member-list/member-list.component'
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -52,7 +52,7 @@ import { FileUploadModule } from 'ng2-file-upload';
       DatingRoutingModule,
       AuthModule,
       TabsModule.forRoot(),
-      FileUploadModule, ReactiveFormsModule
+      FileUploadModule, ReactiveFormsModule, BsDatepickerModule.forRoot()
    ],
    providers: [
       AuthService,
