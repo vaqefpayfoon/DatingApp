@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingAppAPI.Data;
 using DatingAppAPI.Dtos;
+using DatingAppAPI.Helper;
+using DatingAppAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingAppAPI.Controllers {
+    [ServiceFilter(typeof(Helper.LogUserActivity))]
     [Authorize]
     [Route ("api/[controller]")]
     public class UsersController : Controller {
@@ -20,12 +23,25 @@ namespace DatingAppAPI.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers () {
-            var users = await _context.GetUsers ();
+        public async Task<IActionResult> GetUsers (UserParams userParams) {
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var userFromRepo = await _context.GetUser(currentUserId);
+
+            userParams.UserId = currentUserId;
+
+            if (string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
+            }
+
+            var users = await _context.GetUsers(userParams);
 
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
 
-            return Ok (usersToReturn);
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
+            return Ok(usersToReturn);
         }
 
         [HttpGet ("{id}")]
@@ -59,5 +75,33 @@ namespace DatingAppAPI.Controllers {
 
             throw new Exception($"Updating user {id} failed on save");
         }
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipientId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            
+            var like = await _context.GetLike(id, recipientId);
+
+            if (like != null)
+                return BadRequest("You already like this user");
+            
+            if (await _context.GetUser(recipientId) == null)
+                return NotFound();
+            
+            like = new Like
+            {
+                LikerId = id,
+                LikeeId = recipientId
+            };
+
+            _context.Add<Like>(like);
+
+            if (await _context.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to add user");
+        }
+
     }
 }
