@@ -10,29 +10,35 @@
     <form class="form-inline" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
       <div class="form-group">
         <label for="minAge">Age From</label>
-        <input type="number" class="form-control" style="width: 70px" id="minAge" name="minAge" [(ngModel)]="userParams.minAge">
+        <input type="number" class="form-control" style="width: 70px" id="minAge" name="minAge" 
+        [(ngModel)]="userParams.minAge">
       </div>
 
       <div class="form-group">
         <label for="maxAge">Age To</label>
-        <input type="number" class="form-control" style="width: 70px" id="maxAge" name="maxAge" [(ngModel)]="userParams.maxAge">
+        <input type="number" class="form-control" style="width: 70px" id="maxAge" name="maxAge" 
+        [(ngModel)]="userParams.maxAge">
       </div>
 
       <div class="form-group">
         <label for="gender">Show: </label>
-        <select class="form-control" style="width: 130px" id="gender" name="gender" [(ngModel)]="userParams.gender">
+        <select class="form-control" style="width: 130px" id="gender" name="gender" 
+        [(ngModel)]="userParams.gender">
           <option *ngFor="let gender of genderList" [value]="gender.value">
             {{gender.display}}
           </option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
-      <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">Reset Filter</button>
+      <button type="button" class="btn btn-info" style="margin-left:10px" 
+      (click)="resetFilters()">Reset Filter</button>
       <div class="pull-right">
           <label style="margin-right: 10px">Order By: </label>
           <div class="btn-group">
-            <button type="button" [(ngModel)]="userParams.orderBy" name="orderBy" class="btn btn-primary" btnRadio="lastActive" (click)="loadUsers()">Last Active</button>
-            <button type="button" [(ngModel)]="userParams.orderBy" name="orderBy" class="btn btn-primary" btnRadio="created" (click)="loadUsers()">Newest Members</button>
+            <button type="button" [(ngModel)]="userParams.orderBy" name="orderBy" 
+            class="btn btn-primary" btnRadio="lastActive" (click)="loadUsers()">Last Active</button>
+            <button type="button" [(ngModel)]="userParams.orderBy" name="orderBy" 
+            class="btn btn-primary" btnRadio="created" (click)="loadUsers()">Newest Members</button>
           </div>
       </div>
     </form>

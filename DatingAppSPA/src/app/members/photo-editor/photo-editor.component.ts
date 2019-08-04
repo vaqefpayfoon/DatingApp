@@ -2,7 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Photo } from 'src/app/_model/photo';
 import { FileUploader } from 'ng2-file-upload';
 import { AuthService } from 'src/app/_services/auth.service';
-import { UserService } from 'src/app/_services/user.service';
+import { UserService } from 'src/app/_services/userOld.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { environment } from 'src/environments/environment';
 import * as _ from 'underscore';

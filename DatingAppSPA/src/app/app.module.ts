@@ -1,5 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http'
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -11,13 +12,14 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ValueComponent } from './value/value.component';
 import { AlertifyService } from './_services/alertify.service';
-import { BsDropdownModule, TabsModule, BsDatepickerModule, ButtonsModule, PaginationModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, ButtonsModule,
+    PaginationModule } from 'ngx-bootstrap';
 import { MemberListComponent } from './members/member-list/member-list.component'
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { DatingRoutingModule } from './DatingRouting';
 import { AuthGuard } from './_guards/auth.guard';
-import { UserService } from './_services/user.service';
+import { UserService } from './_services/userOld.service';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { AuthModule } from './auth/auth.module';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
@@ -30,6 +32,18 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeAgoPipe } from 'time-ago-pipe'
 import { ListsResolver } from './_resolvers/list.resolver';
+import { MessageResolver } from './_resolvers/message.resolver';
+import { MembersMessagesComponent } from './members/members-messages/members-messages.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function getAccessToken(): string {
+   return localStorage.getItem('token');
+ }
+ 
+ export const jwtConfig = {
+   tokenGetter: getAccessToken,
+   whiteListedDomains: ['localhost:5000']
+ };
 
 @NgModule({
    declarations: [
@@ -44,7 +58,7 @@ import { ListsResolver } from './_resolvers/list.resolver';
       MemberCardComponent,
       MemberDetailComponent,
       MemberEditComponent,
-      PhotoEditorComponent, TimeAgoPipe
+      PhotoEditorComponent, TimeAgoPipe, MembersMessagesComponent
    ],
    imports: [
       BrowserModule,
@@ -56,7 +70,11 @@ import { ListsResolver } from './_resolvers/list.resolver';
       TabsModule.forRoot(),
       FileUploadModule, ReactiveFormsModule, BsDatepickerModule.forRoot(),
       PaginationModule.forRoot(),
-      ButtonsModule.forRoot()
+      ButtonsModule.forRoot(),
+      HttpClientModule,
+      JwtModule.forRoot({
+      config: jwtConfig
+      })
    ],
    providers: [
       AuthService,
@@ -64,7 +82,7 @@ import { ListsResolver } from './_resolvers/list.resolver';
       AuthGuard,
       UserService,
       MemberDetailResolver, MemberListResolver, MemberEditResolver, PreventUnsavedChanges,
-      ListsResolver
+      ListsResolver, MessageResolver
    ],
    bootstrap: [
       AppComponent
